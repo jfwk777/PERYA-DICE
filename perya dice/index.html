@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PERYA DICE</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     LOGO
+========================= -->
+
+<img 
+    class="logo"
+    src="images/PERYA.png"
+    alt="PERYA DICE"
+>
+
+
+
+
+<!-- =========================
+     DICE SECTION
+========================= -->
+
+<section class="diceSection">
+
+
+    <h4>
+        Number of Dice
+
+        <select id="diceCount">
+
+            <option value="1">1</option>
+
+            <option value="2">2</option>
+
+            <option value="3" selected>3</option>
+
+            <option value="4">4</option>
+
+            <option value="5">5</option>
+
+            <option value="6">6</option>
+
+        </select>
+
+    </h4>
+
+
+
+    <div id="results"></div>
+
+
+
+    <button id="rollButton">
+        🎲 Roll Dice
+    </button>
+
+
+</section>
+
+
+
+
+
+<hr>
+
+
+
+
+
+<!-- =========================
+     WHEEL SECTION
+========================= -->
+
+
+<section class="wheelSection">
+
+
+    <h2>
+        🎡 SPIN-THE-WHEEL
+    </h2>
+
+<br><br>
+
+    <div id="wheelContainer">
+
+
+        <canvas 
+            id="wheel"
+            width="400"
+            height="400">
+        </canvas>
+
+
+
+        <div id="pointer"></div>
+
+
+
+    </div>
+
+
+
+
+    <button id="spinWheel">
+        🎡 Spin Wheel
+    </button>
+
+
+</section>
+
+
+
+
+
+
+<!-- =========================
+     NAME CONTROLS
+========================= -->
+<br><br>
+
+<section id="nameControls">
+
+
+    <input
+        id="nameInput"
+        type="text"
+        placeholder="Enter a name"
+    >
+
+
+
+    <button id="addName">
+        ➕ Add Name
+    </button>
+
+</div>
+
+
+    <div class="pickerGroup">
+
+        <label>
+            Text
+        </label>
+
+
+        <input
+            id="textColor"
+            type="color"
+            value="#ffffff"
+        >
+
+    </div>
+
+
+
+
+
+    <div class="pickerGroup">
+
+        <label>
+            Slice
+        </label>
+
+
+        <input
+            id="nameColor"
+            type="color"
+            value="#ff4d4d"
+        >
+
+    </div>
+
+
+
+</section>
+
+
+
+
+
+
+
+<!-- =========================
+     NAME LIST
+========================= -->
+
+
+<ul id="nameList"></ul>
+
+
+
+
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,773 @@
+/* ==================================
+   GLOBAL
+================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+:root {
+
+    /* CHANGE ONLY THIS NUMBER */
+    --wheel-size: 400px;
+
+}
+
+
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,.45),
+            rgba(0,0,0,.45)
+        ),
+        url("images/raccoon.png");
+
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-attachment: fixed;
+
+
+    color:white;
+
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+
+    text-align:center;
+
+}
+
+
+
+
+
+/* ==================================
+   LOGO
+================================== */
+
+
+.logo {
+
+    width:min(500px,90%);
+
+
+    margin-top:10px;
+
+    margin-bottom:0;
+
+}
+
+
+
+
+
+/* ==================================
+   SECTIONS
+================================== */
+
+
+section {
+
+    margin:10px auto;
+
+}
+
+
+
+
+
+.diceSection h4 {
+
+    margin-top:5px;
+
+}
+
+
+
+
+
+/* ==================================
+   BUTTONS
+================================== */
+
+
+button {
+
+
+    padding:12px 30px;
+
+
+    font-size:18px;
+
+
+    font-weight:bold;
+
+
+    color:white;
+
+
+    background:#3498db;
+
+
+    border:none;
+
+
+    border-radius:12px;
+
+
+    cursor:pointer;
+
+
+    transition:.2s;
+
+}
+
+
+
+button:hover {
+
+
+    background:#2980b9;
+
+
+    transform:scale(1.05);
+
+
+}
+
+
+
+button:active {
+
+
+    transform:scale(.95);
+
+
+}
+
+
+
+button:disabled {
+
+
+    opacity:.6;
+
+}
+
+
+
+
+
+/* ==================================
+   DICE
+================================== */
+
+
+select {
+
+
+    padding:8px;
+
+
+    font-size:18px;
+
+
+    border-radius:8px;
+
+
+}
+
+
+
+#results {
+
+
+    min-height:90px;
+
+
+    margin:15px;
+
+}
+
+
+
+.dice {
+
+
+    width:80px;
+
+
+    height:80px;
+
+
+    margin:8px;
+
+
+}
+
+
+
+
+.shake {
+
+
+    animation:shake .15s infinite;
+
+}
+
+
+
+
+@keyframes shake {
+
+
+    0% {
+
+        transform:rotate(0);
+
+    }
+
+
+    25% {
+
+        transform:
+        translate(-5px,2px)
+        rotate(-10deg);
+
+    }
+
+
+    50% {
+
+        transform:
+        translate(5px,-2px)
+        rotate(10deg);
+
+    }
+
+
+    100% {
+
+        transform:rotate(0);
+
+    }
+
+
+}
+
+
+
+
+
+/* ==================================
+   WHEEL
+================================== */
+
+
+#wheelContainer {
+
+
+    position:relative;
+
+
+    width:var(--wheel-size);
+
+
+    height:var(--wheel-size);
+
+
+    margin:20px auto;
+
+
+}
+
+
+
+
+#wheel {
+
+
+    width:var(--wheel-size);
+
+
+    height:var(--wheel-size);
+
+
+    border-radius:50%;
+
+
+    background:white;
+
+
+    border:6px solid white;
+
+
+    box-shadow:
+
+        0 0 25px black;
+
+
+
+    transition:
+
+        transform 6s
+
+        cubic-bezier(
+            .12,
+            .8,
+            .2,
+            1
+        );
+
+
+}
+
+
+
+
+
+/* ==================================
+   POINTER
+================================== */
+
+
+#pointer {
+
+
+    position:absolute;
+
+
+    top:-25px;
+
+
+    left:50%;
+
+
+    transform:
+    translateX(-50%);
+
+
+
+    width:0;
+
+
+    height:0;
+
+
+
+    border-left:22px solid transparent;
+
+
+    border-right:22px solid transparent;
+
+
+    border-top:45px solid red;
+
+
+
+    filter:
+    drop-shadow(0 0 8px black);
+
+
+}
+
+
+
+
+
+
+/* ==================================
+   WINNER POPUP
+   INSIDE WHEEL
+================================== */
+
+
+.winnerPopup {
+
+
+    position:absolute;
+
+
+    top:50%;
+
+
+    left:50%;
+
+
+
+    transform:
+    translate(-50%,-50%);
+
+
+
+    width:180px;
+
+
+    height:180px;
+
+
+
+    background:
+    rgba(0,0,0,.88);
+
+
+
+    border-radius:50%;
+
+
+
+    border:5px solid gold;
+
+
+
+    color:white;
+
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+
+    z-index:50;
+
+
+
+    box-shadow:
+
+    0 0 30px black;
+
+
+
+    animation:
+    popupShow .3s ease;
+
+
+}
+
+
+
+.winnerPopup h2 {
+
+
+    margin:0;
+
+
+    font-size:22px;
+
+
+}
+
+
+
+.winnerPopup h1 {
+
+
+    margin:10px;
+
+
+    font-size:38px;
+
+
+    color:gold;
+
+
+}
+
+
+
+.winnerPopup button {
+
+
+    padding:6px 20px;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
+@keyframes popupShow {
+
+
+    from {
+
+        opacity:0;
+
+        transform:
+        translate(-50%,-50%)
+        scale(.5);
+
+    }
+
+
+
+    to {
+
+        opacity:1;
+
+        transform:
+        translate(-50%,-50%)
+        scale(1);
+
+    }
+
+
+}
+
+
+
+
+
+/* ==================================
+   NAME CONTROLS
+================================== */
+
+
+#nameControls {
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    gap:15px;
+
+
+    flex-wrap:wrap;
+
+
+    margin:20px;
+
+
+}
+
+
+
+
+#nameInput {
+
+
+    width:240px;
+
+
+    padding:12px;
+
+
+    font-size:18px;
+
+
+    border:none;
+
+
+    border-radius:8px;
+
+
+}
+
+
+
+
+
+.pickerGroup {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:5px;
+
+
+}
+
+
+
+
+
+input[type="color"] {
+
+
+    width:45px;
+
+
+    height:45px;
+
+
+    border:
+
+    2px solid white;
+
+
+    border-radius:10px;
+
+
+}
+
+
+
+
+
+
+/* ==================================
+   NAME LIST
+================================== */
+
+
+#nameList {
+
+
+    width:350px;
+
+
+    max-width:90%;
+
+
+    margin:20px auto;
+
+
+    padding:0;
+
+
+    list-style:none;
+
+
+}
+
+
+
+#nameList li {
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:10px;
+
+
+    padding:10px;
+
+
+    margin-bottom:10px;
+
+
+
+    background:
+
+    rgba(255,255,255,.15);
+
+
+
+    border-radius:10px;
+
+
+}
+
+
+
+
+
+#nameList li span:nth-child(2) {
+
+
+    flex:1;
+
+
+    text-align:left;
+
+
+}
+
+
+
+
+#nameList button {
+
+
+    background:#e74c3c;
+
+
+    padding:6px 10px;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
+/* ==================================
+   MOBILE
+================================== */
+
+
+@media(max-width:600px){
+
+
+    :root {
+
+        --wheel-size:300px;
+
+    }
+
+
+
+    #nameControls {
+
+
+        flex-direction:column;
+
+
+    }
+
+
+
+    button {
+
+
+        width:90%;
+
+
+    }
+
+
+}
