@@ -7,23 +7,16 @@
    DICE IMAGES
 ================================== */
 
-
 const diceImages = [
 
     "images/red.png",
-
     "images/blue.png",
-
     "images/green.png",
-
     "images/yellow.png",
-
     "images/purple.png",
-
     "images/orange.png"
 
 ];
-
 
 
 
@@ -31,14 +24,11 @@ const diceImages = [
    SOUND
 ================================== */
 
-
 const rollSound = new Audio(
     "sounds/dice-roll.mp3"
 );
 
-
 rollSound.volume = 0.6;
-
 
 
 
@@ -46,26 +36,28 @@ rollSound.volume = 0.6;
    ELEMENTS
 ================================== */
 
-
 const rollButton =
-    document.getElementById(
-        "rollButton"
-    );
-
+    document.getElementById("rollButton");
 
 
 const diceCount =
-    document.getElementById(
-        "diceCount"
-    );
-
+    document.getElementById("diceCount");
 
 
 const results =
-    document.getElementById(
-        "results"
-    );
+    document.getElementById("results");
 
+
+const history =
+    document.getElementById("history");
+
+
+
+/* ==================================
+   HISTORY
+================================== */
+
+const rollHistory = [];
 
 
 
@@ -73,20 +65,13 @@ const results =
    RANDOM DICE
 ================================== */
 
-
 function randomDice(){
 
-
     return Math.floor(
-
-        Math.random() *
-        diceImages.length
-
+        Math.random() * diceImages.length
     );
 
-
 }
-
 
 
 
@@ -94,36 +79,21 @@ function randomDice(){
    ROLL DICE
 ================================== */
 
-
 function rollDice(amount){
 
+    const dice = [];
 
-    let dice = [];
-
-
-
-    for(
-        let i = 0;
-        i < amount;
-        i++
-    ){
-
+    for(let i = 0; i < amount; i++){
 
         dice.push(
             randomDice()
         );
 
-
     }
-
-
 
     return dice;
 
-
 }
-
-
 
 
 
@@ -131,35 +101,20 @@ function rollDice(amount){
    SHOW DICE
 ================================== */
 
-
-function showDice(
-    values,
-    shaking = false
-){
-
-
-    if(!results)
-        return;
-
-
+function showDice(values, shaking = false){
 
     results.innerHTML = "";
 
 
-
-    values.forEach(value=>{
+    values.forEach(value => {
 
 
         const img =
-            document.createElement(
-                "img"
-            );
-
+            document.createElement("img");
 
 
         img.src =
             diceImages[value];
-
 
 
         img.className =
@@ -168,10 +123,83 @@ function showDice(
             : "dice";
 
 
+        results.appendChild(img);
 
-        results.appendChild(
-            img
-        );
+
+    });
+
+}
+
+
+
+/* ==================================
+   UPDATE LAST 5 ROLLS
+================================== */
+
+function updateHistory(values){
+
+
+    if(!history)
+        return;
+
+
+
+    rollHistory.unshift(
+        [...values]
+    );
+
+
+
+    if(rollHistory.length > 5){
+
+        rollHistory.pop();
+
+    }
+
+
+
+    history.innerHTML = "";
+
+
+
+    rollHistory.forEach(roll => {
+
+
+        const row =
+            document.createElement("div");
+
+
+        row.className =
+            "historyRow";
+
+
+
+        roll.forEach(value => {
+
+
+            const img =
+                document.createElement("img");
+
+
+
+            img.src =
+                diceImages[value];
+
+
+
+            img.className =
+                "historyDice";
+
+
+
+            row.appendChild(img);
+
+
+        });
+
+
+
+        history.appendChild(row);
 
 
     });
@@ -181,21 +209,11 @@ function showDice(
 
 
 
-
 /* ==================================
    START ROLL
 ================================== */
 
-
 function startDiceRoll(){
-
-
-    if(
-        !diceCount ||
-        !rollButton
-    )
-        return;
-
 
 
     const amount =
@@ -208,22 +226,17 @@ function startDiceRoll(){
     rollButton.disabled = true;
 
 
-
     rollButton.textContent =
         "Rolling...";
-
 
 
 
     rollSound.currentTime = 0;
 
 
-
     rollSound
         .play()
         .catch(()=>{});
-
-
 
 
 
@@ -245,22 +258,26 @@ function startDiceRoll(){
 
 
 
-
-
-
     setTimeout(()=>{
 
 
-        clearInterval(
-            animation
-        );
+        clearInterval(animation);
+
+
+
+        const finalRoll =
+            rollDice(amount);
 
 
 
         showDice(
+            finalRoll
+        );
 
-            rollDice(amount)
 
+
+        updateHistory(
+            finalRoll
         );
 
 
@@ -270,7 +287,6 @@ function startDiceRoll(){
 
 
         rollButton.textContent =
-
             "🎲 Roll Dice";
 
 
@@ -278,9 +294,7 @@ function startDiceRoll(){
     },1900);
 
 
-
 }
-
 
 
 
@@ -288,22 +302,14 @@ function startDiceRoll(){
    BUTTON
 ================================== */
 
-
 if(rollButton){
 
-
     rollButton.addEventListener(
-
         "click",
-
         startDiceRoll
-
     );
 
-
 }
-
-
 
 
 
@@ -311,19 +317,11 @@ if(rollButton){
    STARTUP
 ================================== */
 
-
 window.addEventListener(
-
     "load",
-
     ()=>{
-
-
-        // automatic first roll
 
         startDiceRoll();
 
-
     }
-
 );
