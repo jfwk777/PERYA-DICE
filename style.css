@@ -45,9 +45,9 @@ body {
 
 .logo {
 
-    width:min(700px,90%);
+    width:min(700px,100%);
 
-    margin-top:10px;
+    margin-top:-10px;
 
 }
 
@@ -59,7 +59,7 @@ body {
 
 section {
 
-    margin:20px auto;
+    margin:10px auto;
 
 }
 
@@ -79,7 +79,7 @@ section {
 
 select {
 
-    padding:10px 15px;
+    padding:1px 1px;
 
     font-size:20px;
 
@@ -97,9 +97,9 @@ select {
 
 button {
 
-    padding:14px 35px;
+    padding:14px 3cqh;
 
-    font-size:20px;
+    font-size:25px;
 
     font-weight:bold;
 
@@ -189,7 +189,7 @@ button:disabled {
 .shake {
 
     animation:
-    shake .15s infinite;
+    shake .4s infinite;
 
 }
 
