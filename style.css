@@ -1,0 +1,279 @@
+/* ==================================
+   GLOBAL
+================================== */
+
+* {
+    box-sizing:border-box;
+}
+
+
+body {
+
+    margin:0;
+
+    min-height:100vh;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,.45),
+            rgba(0,0,0,.45)
+        ),
+        url("images/raccoon.png");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-attachment:fixed;
+
+    color:white;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    text-align:center;
+
+}
+
+
+
+/* ==================================
+   LOGO
+================================== */
+
+.logo {
+
+    width:min(500px,90%);
+
+    margin-top:10px;
+
+}
+
+
+
+/* ==================================
+   SECTION
+================================== */
+
+section {
+
+    margin:20px auto;
+
+}
+
+
+
+.diceSection h2 {
+
+    margin-bottom:15px;
+
+}
+
+
+
+/* ==================================
+   SELECT
+================================== */
+
+select {
+
+    padding:10px 15px;
+
+    font-size:20px;
+
+    border-radius:10px;
+
+    border:none;
+
+}
+
+
+
+/* ==================================
+   BUTTON
+================================== */
+
+button {
+
+    padding:14px 35px;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    color:white;
+
+    background:#3498db;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+
+button:hover {
+
+    background:#2980b9;
+
+    transform:scale(1.05);
+
+}
+
+
+button:active {
+
+    transform:scale(.95);
+
+}
+
+
+button:disabled {
+
+    opacity:.6;
+
+}
+
+
+
+/* ==================================
+   DICE AREA
+================================== */
+
+#results {
+
+    min-height:150px;
+
+    margin:25px auto;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+}
+
+
+
+/* ==================================
+   BIG DICE
+================================== */
+
+.dice {
+
+    width:120px;
+
+    height:120px;
+
+    margin:10px;
+
+    object-fit:contain;
+
+}
+
+
+
+/* ==================================
+   SHAKE ANIMATION
+================================== */
+
+.shake {
+
+    animation:
+    shake .15s infinite;
+
+}
+
+
+
+@keyframes shake {
+
+
+    0% {
+
+        transform:rotate(0deg);
+
+    }
+
+
+    25% {
+
+        transform:
+        translate(-5px,2px)
+        rotate(-10deg);
+
+    }
+
+
+    50% {
+
+        transform:
+        translate(5px,-2px)
+        rotate(10deg);
+
+    }
+
+
+    75% {
+
+        transform:
+        translate(-3px,1px)
+        rotate(-5deg);
+
+    }
+
+
+    100% {
+
+        transform:rotate(0deg);
+
+    }
+
+}
+
+
+
+/* ==================================
+   MOBILE
+================================== */
+
+@media(max-width:600px){
+
+
+    .logo {
+
+        width:90%;
+
+    }
+
+
+
+    button {
+
+        width:90%;
+
+    }
+
+
+
+    .dice {
+
+        width:80px;
+
+        height:80px;
+
+        margin:10px;
+
+    }
+
+
+}
