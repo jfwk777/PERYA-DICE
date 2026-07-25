@@ -2,20 +2,33 @@
    PERYA DICE
 ================================== */
 
+import { db } from "./firebase.js";
+
+import {
+    collection,
+    doc,
+    setDoc,
+    getDocs,
+    getDoc,
+    query,
+    where,
+    orderBy,
+    limit,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
 
 /* ==================================
    DICE IMAGES
 ================================== */
 
 const diceImages = [
-
     "images/red.png",
     "images/blue.png",
     "images/green.png",
     "images/yellow.png",
     "images/purple.png",
     "images/orange.png"
-
 ];
 
 
@@ -39,25 +52,63 @@ rollSound.volume = 0.6;
 const rollButton =
     document.getElementById("rollButton");
 
-
 const diceCount =
     document.getElementById("diceCount");
-
 
 const results =
     document.getElementById("results");
 
-
 const history =
     document.getElementById("history");
+
+const gameIdElement =
+    document.getElementById("gameId");
 
 
 
 /* ==================================
-   HISTORY
+   FIRESTORE
 ================================== */
 
-const rollHistory = [];
+const rollsCollection =
+    collection(db, "rolls");
+
+
+
+/* ==================================
+   GAME ID
+================================== */
+
+function generateGameId(length = 10){
+
+    const chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    const bytes =
+        new Uint8Array(length);
+
+    crypto.getRandomValues(bytes);
+
+
+    return Array.from(
+        bytes,
+        b => chars[b % chars.length]
+    ).join("");
+
+}
+
+
+const gameId =
+    generateGameId();
+
+
+
+if(gameIdElement){
+
+    gameIdElement.textContent =
+        gameId;
+
+}
 
 
 
@@ -76,12 +127,13 @@ function randomDice(){
 
 
 /* ==================================
-   ROLL DICE
+   CREATE ROLL
 ================================== */
 
 function rollDice(amount){
 
     const dice = [];
+
 
     for(let i = 0; i < amount; i++){
 
@@ -91,6 +143,7 @@ function rollDice(amount){
 
     }
 
+
     return dice;
 
 }
@@ -98,15 +151,20 @@ function rollDice(amount){
 
 
 /* ==================================
-   SHOW DICE
+   DISPLAY DICE
 ================================== */
 
-function showDice(values, shaking = false){
+function showDice(values, shaking=false){
+
+
+    if(!results)
+        return;
+
 
     results.innerHTML = "";
 
 
-    values.forEach(value => {
+    values.forEach(value=>{
 
 
         const img =
@@ -128,82 +186,6 @@ function showDice(values, shaking = false){
 
     });
 
-}
-
-
-
-/* ==================================
-   UPDATE LAST 5 ROLLS
-================================== */
-
-function updateHistory(values){
-
-
-    if(!history)
-        return;
-
-
-
-    rollHistory.unshift(
-        [...values]
-    );
-
-
-
-    if(rollHistory.length > 5){
-
-        rollHistory.pop();
-
-    }
-
-
-
-    history.innerHTML = "";
-
-
-
-    rollHistory.forEach(roll => {
-
-
-        const row =
-            document.createElement("div");
-
-
-        row.className =
-            "historyRow";
-
-
-
-        roll.forEach(value => {
-
-
-            const img =
-                document.createElement("img");
-
-
-
-            img.src =
-                diceImages[value];
-
-
-
-            img.className =
-                "historyDice";
-
-
-
-            row.appendChild(img);
-
-
-        });
-
-
-
-        history.appendChild(row);
-
-
-    });
-
 
 }
 
@@ -213,13 +195,11 @@ function updateHistory(values){
    START ROLL
 ================================== */
 
-function startDiceRoll(){
+async function startDiceRoll(){
 
 
     const amount =
-        Number(
-            diceCount.value
-        );
+        Number(diceCount.value);
 
 
 
@@ -234,9 +214,8 @@ function startDiceRoll(){
     rollSound.currentTime = 0;
 
 
-    rollSound
-        .play()
-        .catch(()=>{});
+    rollSound.play()
+    .catch(()=>{});
 
 
 
@@ -257,8 +236,7 @@ function startDiceRoll(){
 
 
 
-
-    setTimeout(()=>{
+    setTimeout(async()=>{
 
 
         clearInterval(animation);
@@ -276,14 +254,17 @@ function startDiceRoll(){
 
 
 
-        updateHistory(
+        await saveRoll(
             finalRoll
         );
 
 
 
-        rollButton.disabled = false;
+        await loadHistory();
 
+
+
+        rollButton.disabled = false;
 
 
         rollButton.textContent =
@@ -292,6 +273,219 @@ function startDiceRoll(){
 
 
     },1900);
+
+
+}
+
+
+
+/* ==================================
+   SAVE ROLL
+================================== */
+
+async function saveRoll(values){
+
+
+    await setDoc(
+
+        doc(collection(db,"rolls")),
+
+        {
+
+            gameId: gameId,
+
+            result: values,
+
+            timestamp: serverTimestamp()
+
+        }
+
+    );
+
+
+}
+
+
+
+/* ==================================
+   LAST 5 ROLLS
+================================== */
+
+async function loadHistory(){
+
+
+    if(!history)
+        return;
+
+
+
+    history.innerHTML = "";
+
+
+
+    const q = query(
+
+        rollsCollection,
+
+        orderBy(
+            "timestamp",
+            "desc"
+        ),
+
+        limit(5)
+
+    );
+
+
+
+    const snapshot =
+        await getDocs(q);
+
+
+
+    snapshot.forEach(docSnap=>{
+
+
+        const data =
+            docSnap.data();
+
+
+
+        const row =
+            document.createElement("div");
+
+
+        row.className =
+            "historyRow";
+
+
+
+        const id =
+            document.createElement("div");
+
+
+        id.textContent =
+            "ID: " + data.gameId;
+
+
+
+        row.appendChild(id);
+
+
+
+        data.result.forEach(value=>{
+
+
+            const img =
+                document.createElement("img");
+
+
+            img.src =
+                diceImages[value];
+
+
+            img.className =
+                "historyDice";
+
+
+            row.appendChild(img);
+
+
+        });
+
+
+
+        history.appendChild(row);
+
+
+    });
+
+
+}
+
+
+
+/* ==================================
+   VERIFY GAME
+================================== */
+
+async function verifyGame(searchId){
+
+
+    const q = query(
+
+        rollsCollection,
+
+        where(
+            "gameId",
+            "==",
+            searchId
+        ),
+
+        orderBy(
+            "timestamp",
+            "desc"
+        )
+
+    );
+
+
+
+    const snapshot =
+        await getDocs(q);
+
+
+
+    if(snapshot.empty){
+
+        return null;
+
+    }
+
+
+
+    return snapshot.docs.map(
+        doc => doc.data()
+    );
+
+
+}
+
+
+
+/* ==================================
+   SHOW VERIFIED ROLL
+================================== */
+
+function showVerifiedRoll(data){
+
+
+    if(!results)
+        return;
+
+
+    results.innerHTML = "";
+
+
+    data.result.forEach(value=>{
+
+
+        const img =
+            document.createElement("img");
+
+
+        img.src =
+            diceImages[value];
+
+
+        img.className =
+            "dice";
+
+
+        results.appendChild(img);
+
+
+    });
 
 
 }
@@ -319,9 +513,47 @@ if(rollButton){
 
 window.addEventListener(
     "load",
-    ()=>{
+    async ()=>{
+
+
+        await loadHistory();
+
 
         startDiceRoll();
 
+
     }
 );
+
+/* ==================================
+   COPY GAME ID
+================================== */
+
+const copyButton =
+    document.getElementById("copyGameId");
+
+
+if(copyButton){
+
+    copyButton.addEventListener(
+        "click",
+        async ()=>{
+
+            await navigator.clipboard.writeText(gameId);
+
+
+            copyButton.textContent =
+                "✅ Copied";
+
+
+            setTimeout(()=>{
+
+                copyButton.textContent =
+                    "📋 Copy";
+
+            },1500);
+
+        }
+    );
+
+}

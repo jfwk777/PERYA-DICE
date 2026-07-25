@@ -2,14 +2,23 @@
    GLOBAL
 ================================== */
 
-* {
-    box-sizing:border-box;
-}
-
-
-body {
+*{
 
     margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
 
     min-height:100vh;
 
@@ -24,101 +33,161 @@ body {
 
     background-position:center;
 
+    background-repeat:no-repeat;
+
     background-attachment:fixed;
 
-    color:white;
+    font-family:Arial, Helvetica, sans-serif;
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    color:#fff;
 
     text-align:center;
 
+    padding:15px;
+
 }
-
-
 
 /* ==================================
    LOGO
 ================================== */
 
-.logo {
+.logo{
 
-    width:min(700px,100%);
+    display:block;
 
-    margin-top:-10px;
+    width:min(700px,95%);
+
+    margin:0 auto 10px;
+
+    user-select:none;
 
 }
-
-
 
 /* ==================================
-   SECTION
+   MAIN
 ================================== */
 
-section {
+main{
 
-    margin:10px auto;
+    width:100%;
 
-}
+    max-width:1000px;
 
-
-
-.diceSection h2 {
-
-    margin-bottom:15px;
+    margin:auto;
 
 }
 
+/* ==================================
+   DICE SECTION
+================================== */
 
+.diceSection{
+
+    width:100%;
+
+    max-width:850px;
+
+    margin:auto;
+
+}
+
+/* ==================================
+   GAME INFO
+================================== */
+
+.gameInfo{
+
+    margin-bottom:8px;
+
+}
+
+.gameInfo p{
+
+    font-size:20px;
+
+    margin-bottom:5px;
+
+}
+
+#gameId{
+
+    color:#FFD700;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    letter-spacing:2px;
+
+    word-break:break-all;
+
+}
+
+/* ==================================
+   LABEL
+================================== */
+
+label{
+
+    display:block;
+
+    font-size:20px;
+
+    margin-bottom:6px;
+
+    font-weight:bold;
+
+}
 
 /* ==================================
    SELECT
 ================================== */
 
-select {
+select{
 
-    padding:1px 1px;
+    padding:8px 15px;
 
-    font-size:20px;
+    border:none;
 
     border-radius:10px;
 
-    border:none;
-
-}
-
-
-
-/* ==================================
-   BUTTON
-================================== */
-
-button {
-
-    padding:12px 3cqh;
-
-    font-size:25px;
-
-    font-weight:bold;
-
-    color:white;
-
-    background:#3498db;
-
-    border:none;
-
-    border-radius:20px;
+    font-size:18px;
 
     cursor:pointer;
 
-    transition:.2s;
+    margin-bottom:10px;
 
 }
 
+/* ==================================
+   BUTTONS
+================================== */
 
-button:hover {
+button{
+
+    background:#3498db;
+
+    color:#fff;
+
+    border:none;
+
+    border-radius:15px;
+
+    padding:12px 28px;
+
+    margin:5px;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+button:hover{
 
     background:#2980b9;
 
@@ -126,31 +195,86 @@ button:hover {
 
 }
 
+button:active{
 
-button:active {
-
-    transform:scale(.95);
+    transform:scale(.96);
 
 }
 
-
-button:disabled {
+button:disabled{
 
     opacity:.6;
 
+    cursor:not-allowed;
+
 }
 
-
-
 /* ==================================
-   DICE AREA
+   ROLL BUTTON
 ================================== */
 
-#results {
+#rollButton{
 
-    min-height:10px;
+    display:block;
 
-    margin:10px auto;
+    margin:12px auto;
+
+    font-size:24px;
+
+    padding:15px 40px;
+
+}
+
+/* ==================================
+   COPY BUTTON
+================================== */
+
+#copyGameId{
+
+    background:#27ae60;
+
+}
+
+#copyGameId:hover{
+
+    background:#1f8a4d;
+
+}
+
+/* ==================================
+   VERIFY BUTTON
+================================== */
+
+#verifyGame{
+
+    background:#f39c12;
+
+    font-size:14px;
+
+    padding:7px 14px;
+
+    border-radius:10px;
+
+    width:auto;
+
+}
+ 
+
+#verifyGame:hover{
+
+    background:#d68910;
+
+}
+
+/* ==================================
+   RESULTS
+================================== */
+
+#results{
+
+    min-height:120px;
+
+    margin:8px auto;
 
     display:flex;
 
@@ -160,190 +284,715 @@ button:disabled {
 
     flex-wrap:wrap;
 
+    gap:10px;
+
 }
 
-
-
 /* ==================================
-   BIG DICE
+   DICE
 ================================== */
 
-.dice {
+.dice{
 
     width:120px;
 
     height:120px;
 
-    margin:10px;
-
     object-fit:contain;
 
 }
-
-
 
 /* ==================================
    SHAKE ANIMATION
 ================================== */
 
-.shake {
+.shake{
 
-    animation:
-    shake .4s infinite;
+    animation:shake .4s infinite;
 
 }
 
+@keyframes shake{
 
-
-@keyframes shake {
-
-
-    0% {
+    0%{
 
         transform:rotate(0deg);
 
     }
 
-
-    25% {
+    25%{
 
         transform:
-        translate(-5px,2px)
-        rotate(-10deg);
+            translate(-5px,2px)
+            rotate(-10deg);
 
     }
 
-
-    50% {
+    50%{
 
         transform:
-        translate(5px,-2px)
-        rotate(10deg);
+            translate(5px,-2px)
+            rotate(10deg);
 
     }
 
-
-    75% {
+    75%{
 
         transform:
-        translate(-3px,1px)
-        rotate(-5deg);
+            translate(-3px,1px)
+            rotate(-5deg);
 
     }
 
-
-    100% {
+    100%{
 
         transform:rotate(0deg);
 
     }
 
 }
+/* ==================================
+   COLOR GUIDE
+================================== */
+
+.colorGuide{
+
+    width:min(700px,95%);
+
+    margin:30px auto;
+
+    padding:20px;
+
+    background:rgba(0,0,0,.35);
+
+    border-radius:20px;
+
+    backdrop-filter:blur(5px);
+
+}
+
+.colorGuide h3{
+
+    margin-bottom:15px;
+
+    font-size:24px;
+
+}
+
+.colors{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+}
+
+.colors img{
+
+    width:35px;
+
+    height:35px;
+
+    transition:.2s;
+
+}
+
+.colors img:hover{
+
+    transform:scale(1.15);
+
+}
+
+/* ==================================
+   HISTORY
+================================== */
+
+.historyBox{
+
+    width:min(380px,90%);
+
+    margin:35px auto;
+
+    padding:20px;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,.45),
+            rgba(0,0,0,.45)
+        ),
+        url("images/previous5.png");
+
+    background-size:cover;
+
+    background-position:center;
+
+    border:1px solid rgba(255,255,255,.25);
+
+    border-radius:25px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+
+}
+
+.historyBox h2,
+.historyBox h3{
+
+    margin-bottom:18px;
+
+    font-size:22px;
+
+}
+
+#history{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.historyRow{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.historyDice{
+
+    width:30px;
+
+    height:30px;
+
+}
+
+/* ==================================
+   VERIFY PAGE
+================================== */
+
+.verifyCard{
+
+    width:min(650px,95%);
+
+    margin:30px auto;
+
+    padding:25px;
+
+    background:rgba(0,0,0,.35);
+
+    border-radius:25px;
+
+    backdrop-filter:blur(6px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+
+}
 
 
+.verifyCard h1{
+
+    margin-bottom:15px;
+
+}
+
+
+.verifyTable{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:20px;
+
+}
+
+
+.verifyTable th{
+
+    background:#3498db;
+
+    color:#fff;
+
+    padding:12px;
+
+    border-bottom:2px solid rgba(255,255,255,.2);
+
+}
+
+
+.verifyTable td{
+
+    padding:12px;
+
+    text-align:center;
+
+    vertical-align:middle;
+
+    border-bottom:1px solid rgba(255,255,255,.12);
+
+}
+
+
+.verifyTable tr:hover{
+
+    background:rgba(255,255,255,.08);
+
+}
+
+
+.verifyTable td:first-child{
+
+    width:60px;
+
+    font-weight:bold;
+
+}
+
+
+.verifyTable td:last-child{
+
+    white-space:nowrap;
+
+}
+
+
+.verifyDice{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:5px;
+
+    flex-wrap:nowrap;
+
+}
+
+
+.verifyDice img{
+
+    width:30px;
+
+    height:30px;
+
+}
+/* ==================================
+   ABOUT
+================================== */
+
+.about{
+
+    width:min(900px,92%);
+
+    margin:45px auto;
+
+    padding:30px;
+
+    background:rgba(0,0,0,.35);
+
+    border-radius:20px;
+
+    backdrop-filter:blur(5px);
+
+    line-height:1.8;
+
+}
+
+.about h2{
+
+    font-size:32px;
+
+    margin-bottom:20px;
+
+}
+
+.about p{
+
+    font-size:18px;
+
+    margin-bottom:15px;
+
+}
+
+/* ==================================
+   LINKS
+================================== */
+
+a{
+
+    color:#6ec6ff;
+
+    text-decoration:none;
+
+}
+
+a:hover{
+
+    text-decoration:underline;
+
+}
+
+/* ==================================
+   SCROLLBAR
+================================== */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#222;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#3498db;
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#2980b9;
+
+}
 
 /* ==================================
    MOBILE
 ================================== */
 
-@media(max-width:600px){
+@media (max-width:768px){
 
+    body{
 
-    .logo {
-
-        width:90%;
-
-    }
-
-
-
-    button {
-
-        width:90%;
+        padding:10px;
 
     }
 
+    .logo{
 
+        width:95%;
 
-    .dice {
+    }
+
+    .gameInfo p{
+
+        font-size:17px;
+
+    }
+
+    #gameId{
+
+        font-size:18px;
+
+        letter-spacing:1px;
+
+    }
+
+    label{
+
+        font-size:18px;
+
+    }
+
+    select{
+
+        font-size:16px;
+
+    }
+
+    .dice{
 
         width:80px;
 
-        height:120px;
-
-        margin:10px;
+        height:80px;
 
     }
 
+    #results{
 
-}
+        min-height:90px;
 
-#history{
-    width:100%;
-    max-width:500px;
-    margin:20px auto;
-}
+        gap:8px;
 
-.historyRow{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:6px;
-    margin:8px 0;
-}
+    }
 
-.historyNumber{
-    width:35px;
-    font-weight:bold;
-}
+    button{
 
-.historyDice{
-    width:25px;
-    height:25px;
-}
+        width:90%;
 
-@media (max-width:600px){
+        max-width:320px;
+
+        font-size:18px;
+
+    }
+
+    #copyGameId,
+    #verifyGame{
+
+        width:auto;
+
+        font-size:14px;
+
+        padding:8px 16px;
+
+    }
+
+    .colors{
+
+        gap:10px;
+
+    }
+
+    .colors img{
+
+        width:28px;
+
+        height:28px;
+
+    }
+
+    .historyBox{
+
+        width:95%;
+
+        padding:15px;
+
+    }
 
     .historyDice{
-        width:25px;
-        height:25px;
+
+        width:24px;
+
+        height:24px;
+
+    }
+
+    .verifyCard{
+
+        width:100%;
+
+        padding:15px;
+
+    }
+
+    .verifyTable{
+
+        font-size:14px;
+
+    }
+
+    .verifyTable th,
+    .verifyTable td{
+
+        padding:8px;
+
+    }
+
+    .verifyDice img{
+
+        width:22px;
+
+        height:22px;
+
+    }
+
+    .verifyTable td:last-child{
+
+        white-space:normal;
+
+    }
+
+    .about{
+
+        width:95%;
+
+        padding:20px;
+
+    }
+
+    .about h2{
+
+        font-size:24px;
+
+    }
+
+    .about p{
+
+        font-size:16px;
+
     }
 
 }
-.historyBox {
-    
-    width: min(150px, 90%);
-    
 
-    margin: 30px auto;
+/* ==================================
+   DESKTOP
+================================== */
 
-    padding: 10px;
+@media (min-width:769px){
 
-    background:
-        linear-gradient(
-            rgba(0,0,0,.35),
-            rgba(0,0,0,.35)
-        ),
-        url("images/previous5.png");
+    button{
 
-    background-size: 250px auto;
+        min-width:170px;
 
-    background-position: center;
+    }
 
-    background-repeat: no-repeat;
+    #rollButton{
 
-    border: px solid rgba(255,255,255,.2);
+        min-width:250px;
 
-    border-radius: 30px;
-
-    box-shadow: 0 8px 20px rgba(0,0,0,.35);
+    }
 
 }
 
-.historyBox h2 {
+/* ==================================
+   SMALL IMPROVEMENTS
+================================== */
 
-    margin-top: 0;
+img{
 
-    margin-bottom: 15px;
+    user-select:none;
+
+    -webkit-user-drag:none;
+
+}
+
+button,
+select{
+
+    outline:none;
+
+}
+
+button:focus,
+select:focus{
+
+    box-shadow:0 0 10px rgba(52,152,219,.45);
+
+}
+
+table{
+
+    border-spacing:0;
+
+}
+
+h1,
+h2,
+h3,
+h4,
+p{
+
+    line-height:1.4;
+
+}
+
+/* ==================================
+   SMOOTH FADE
+================================== */
+
+.dice,
+.historyDice,
+.verifyDice img{
+
+    transition:.2s ease;
+
+}
+
+.verifyTable{
+
+    overflow:hidden;
+
+    border-radius:15px;
+
+}
+
+.verifyTable th:first-child{
+
+    border-top-left-radius:15px;
+
+}
+
+.verifyTable th:last-child{
+
+    border-top-right-radius:15px;
+
+}
+
+/* ==================================
+   GAME ID COPY
+================================== */
+
+.gameIdBox{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:1px;
+
+    flex-wrap:wrap;
+
+}
+
+
+#copyGameId{
+
+    background:#27ae60;
+
+    font-size:5 px;
+
+    padding:1px 1px;
+
+    border-radius:0px;
+
+    margin:0;
+
+}
+
+
+#copyGameId:hover{
+
+    background:#1f8a4d;
+
+}
+
+/* ==================================
+   INDEX VERIFY BUTTON
+================================== */
+
+#verifyGame{
+
+    font-size:7px;
+
+    padding:1px 4px;
+
+    border-radius:10px;
+
+    width:auto;
+
+    margin:5px;
 
 }
