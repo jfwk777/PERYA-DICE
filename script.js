@@ -9,7 +9,6 @@ import {
     doc,
     setDoc,
     getDocs,
-    getDoc,
     query,
     where,
     orderBy,
@@ -71,7 +70,16 @@ const gameIdElement =
 ================================== */
 
 const rollsCollection =
-    collection(db, "rolls");
+    collection(db,"rolls");
+
+
+
+/* ==================================
+   SESSION START
+================================== */
+
+const sessionStart =
+    new Date();
 
 
 
@@ -113,13 +121,49 @@ if(gameIdElement){
 
 
 /* ==================================
+   COPY GAME ID
+================================== */
+
+const copyButton =
+    document.getElementById("copyGameId");
+
+
+if(copyButton){
+
+    copyButton.addEventListener(
+        "click",
+        async ()=>{
+
+            await navigator.clipboard.writeText(gameId);
+
+
+            copyButton.textContent =
+                "✅ Copied";
+
+
+            setTimeout(()=>{
+
+                copyButton.textContent =
+                    "📋 Copy";
+
+            },1500);
+
+        }
+    );
+
+}
+
+
+
+/* ==================================
    RANDOM DICE
 ================================== */
 
 function randomDice(){
 
     return Math.floor(
-        Math.random() * diceImages.length
+        Math.random() *
+        diceImages.length
     );
 
 }
@@ -151,7 +195,7 @@ function rollDice(amount){
 
 
 /* ==================================
-   DISPLAY DICE
+   SHOW DICE
 ================================== */
 
 function showDice(values, shaking=false){
@@ -192,10 +236,10 @@ function showDice(values, shaking=false){
 
 
 /* ==================================
-   START ROLL
+   ROLL DICE
 ================================== */
 
-async function startDiceRoll(){
+function startDiceRoll(){
 
 
     const amount =
@@ -248,9 +292,7 @@ async function startDiceRoll(){
 
 
 
-        showDice(
-            finalRoll
-        );
+        showDice(finalRoll);
 
 
 
@@ -280,7 +322,7 @@ async function startDiceRoll(){
 
 
 /* ==================================
-   SAVE ROLL
+   SAVE TO FIRESTORE
 ================================== */
 
 async function saveRoll(values){
@@ -327,10 +369,19 @@ async function loadHistory(){
 
         rollsCollection,
 
+
+        where(
+            "timestamp",
+            ">=",
+            sessionStart
+        ),
+
+
         orderBy(
             "timestamp",
             "desc"
         ),
+
 
         limit(5)
 
@@ -416,11 +467,13 @@ async function verifyGame(searchId){
 
         rollsCollection,
 
+
         where(
             "gameId",
             "==",
             searchId
         ),
+
 
         orderBy(
             "timestamp",
@@ -443,49 +496,9 @@ async function verifyGame(searchId){
     }
 
 
-
     return snapshot.docs.map(
         doc => doc.data()
     );
-
-
-}
-
-
-
-/* ==================================
-   SHOW VERIFIED ROLL
-================================== */
-
-function showVerifiedRoll(data){
-
-
-    if(!results)
-        return;
-
-
-    results.innerHTML = "";
-
-
-    data.result.forEach(value=>{
-
-
-        const img =
-            document.createElement("img");
-
-
-        img.src =
-            diceImages[value];
-
-
-        img.className =
-            "dice";
-
-
-        results.appendChild(img);
-
-
-    });
 
 
 }
@@ -513,47 +526,22 @@ if(rollButton){
 
 window.addEventListener(
     "load",
-    async ()=>{
+    ()=>{
 
 
-        await loadHistory();
+        // Reset Last 5 Rolls display
 
+        if(history){
+
+            history.innerHTML = "";
+
+        }
+
+
+        // Auto roll
 
         startDiceRoll();
 
 
     }
 );
-
-/* ==================================
-   COPY GAME ID
-================================== */
-
-const copyButton =
-    document.getElementById("copyGameId");
-
-
-if(copyButton){
-
-    copyButton.addEventListener(
-        "click",
-        async ()=>{
-
-            await navigator.clipboard.writeText(gameId);
-
-
-            copyButton.textContent =
-                "✅ Copied";
-
-
-            setTimeout(()=>{
-
-                copyButton.textContent =
-                    "📋 Copy";
-
-            },1500);
-
-        }
-    );
-
-}
